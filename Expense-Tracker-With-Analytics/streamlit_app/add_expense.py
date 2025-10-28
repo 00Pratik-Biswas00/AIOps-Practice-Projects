@@ -20,4 +20,4 @@ def show_add_expense():
             if response.get("status") == "success":
                 st.success("✅ Expense added successfully!")
             else:
-                st.error("❌ Failed to add expense.")
+                st.error(f"❌ Failed to add expense: {response}")

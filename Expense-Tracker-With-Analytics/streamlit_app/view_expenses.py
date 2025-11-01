@@ -6,20 +6,27 @@ from delete_expense import handle_delete_expense
 from datetime import datetime
 
 def show_view_expenses():
-    st.header("📊 View & Manage Expenses")
+    st.subheader("📊 View & Manage Expenses")
+
     current_month = datetime.now().strftime("%Y-%m")
     df_full = get_all_expenses()
+
+    # ✅ Filter current month data
     df_full = df_full[df_full["date"].str.startswith(current_month)]
-    
+
     if df_full.empty:
         st.warning("No expenses found yet. Add some!")
         return
 
-    # ✅ Keep backend keys but show only necessary columns
+    # ✅ Keep only necessary columns
     expected_cols = ["date", "category", "amount", "note", "month_category", "date_id"]
     df_full = df_full[[c for c in expected_cols if c in df_full.columns]]
 
-    st.write("### 💸 Expense List")
+    # ✅ Sort by date (latest first)
+    df_full["date"] = pd.to_datetime(df_full["date"], errors="coerce")
+    df_full = df_full.sort_values(by="date", ascending=False).reset_index(drop=True)
+
+    st.write("### 💸 Expense List ")
 
     # ✅ Table headers
     header_cols = st.columns([2, 2, 2, 3, 1, 1])
@@ -31,46 +38,47 @@ def show_view_expenses():
     if "edit_index" not in st.session_state:
         st.session_state.edit_index = None
 
-    # ✅ Flag to disable other buttons while editing
     editing_active = st.session_state.edit_index is not None
 
-    # ✅ Loop through each expense row
+    # ✅ Loop through sorted rows
     for i, row in df_full.iterrows():
         col1, col2, col3, col4, col5, col6 = st.columns([2, 2, 2, 3, 1, 1])
 
-        col1.write(row.get("date", "-"))
+        # ✅ Format date nicely
+        formatted_date = row.get("date").strftime("%Y-%m-%d") if pd.notnull(row.get("date")) else "-"
+        col1.write(formatted_date)
         col2.write(row.get("category", "-"))
         col3.write(f"₹{row.get('amount', 0):.2f}")
         col4.write(row.get("note", "-"))
 
-        # ✅ Disable all edit/delete buttons if another form is open
+        # ✅ Disable edit/delete buttons when form is open
         edit_disabled = editing_active and st.session_state.edit_index != i
         delete_disabled = editing_active
 
         edit_btn = col5.button("✏️", key=f"edit_{i}", disabled=edit_disabled)
         del_btn = col6.button("🗑️", key=f"del_{i}", disabled=delete_disabled)
 
-        # ✅ When edit button clicked, store which item is being edited
+        # --- When Edit button is clicked ---
         if edit_btn:
             st.session_state.edit_index = i
-            st.rerun()  # refresh UI immediately
+            st.rerun()
 
-        # ✅ Show edit form for the selected index
-        if st.session_state.edit_index == i:
-            with st.container():
-                edit_expense_form(row, i)
-
-        # ✅ Handle delete only when not editing
-        if del_btn and not editing_active:
+        # --- When Delete button is clicked ---
+        if del_btn:
             handle_delete_expense(row)
+            st.rerun()
 
-    # --- Summary ---
+        # --- Show edit form if this row is selected ---
+        if st.session_state.edit_index == i:
+            edit_expense_form(row, i)  # ✅ Pass both arguments correctly
+
+# --- Summary ---
     total = df_full["amount"].sum()
     st.subheader(f"💰 Total Spending: ₹{total:.2f}")
-
+ 
     st.divider()
     st.subheader("📈 Category-wise Summary (Current Month)")
-
+ 
     summary_df = get_category_summary()
     if not summary_df.empty:
         st.dataframe(summary_df, use_container_width=True)

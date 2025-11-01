@@ -7,7 +7,7 @@ import plotly.express as px
 from utils import get_all_expenses
 
 def show_analytics():
-    st.header("📈 Expense Analytics")
+    st.subheader("📈 Expense Analytics")
 
     df = get_all_expenses()
     if df.empty:

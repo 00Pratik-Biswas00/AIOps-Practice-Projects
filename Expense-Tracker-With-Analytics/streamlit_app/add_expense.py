@@ -1,10 +1,9 @@
-import time
 import streamlit as st
 from utils import add_expense_to_api
 from datetime import date as dt_date
 
 def show_add_expense():
-    st.header("💸 Add New Expense")
+    st.subheader("💸 Add New Expense")
 
     # --- Initialize session state ---
     if "date_input" not in st.session_state:

@@ -1,9 +1,13 @@
 import streamlit as st
 import pandas as pd
+import boto3
+from io import BytesIO
+from datetime import datetime, timedelta
 from utils import get_all_expenses, get_category_summary
 from edit_expense import edit_expense_form
 from delete_expense import handle_delete_expense
-from datetime import datetime
+import os
+
 
 def show_view_expenses():
     st.subheader("📊 View & Manage Expenses")
@@ -44,41 +48,38 @@ def show_view_expenses():
     for i, row in df_full.iterrows():
         col1, col2, col3, col4, col5, col6 = st.columns([2, 2, 2, 3, 1, 1])
 
-        # ✅ Format date nicely
-        formatted_date = row.get("date").strftime("%Y-%m-%d") if pd.notnull(row.get("date")) else "-"
+        formatted_date = (
+            row.get("date").strftime("%Y-%m-%d") if pd.notnull(row.get("date")) else "-"
+        )
         col1.write(formatted_date)
         col2.write(row.get("category", "-"))
         col3.write(f"₹{row.get('amount', 0):.2f}")
         col4.write(row.get("note", "-"))
 
-        # ✅ Disable edit/delete buttons when form is open
         edit_disabled = editing_active and st.session_state.edit_index != i
         delete_disabled = editing_active
 
         edit_btn = col5.button("✏️", key=f"edit_{i}", disabled=edit_disabled)
         del_btn = col6.button("🗑️", key=f"del_{i}", disabled=delete_disabled)
 
-        # --- When Edit button is clicked ---
         if edit_btn:
             st.session_state.edit_index = i
             st.rerun()
 
-        # --- When Delete button is clicked ---
         if del_btn:
             handle_delete_expense(row)
             st.rerun()
 
-        # --- Show edit form if this row is selected ---
         if st.session_state.edit_index == i:
-            edit_expense_form(row, i)  # ✅ Pass both arguments correctly
+            edit_expense_form(row, i)
 
-# --- Summary ---
+    # --- Summary ---
     total = df_full["amount"].sum()
     st.subheader(f"💰 Total Spending: ₹{total:.2f}")
- 
+
     st.divider()
     st.subheader("📈 Category-wise Summary (Current Month)")
- 
+
     summary_df = get_category_summary()
     if not summary_df.empty:
         st.dataframe(summary_df, use_container_width=True)

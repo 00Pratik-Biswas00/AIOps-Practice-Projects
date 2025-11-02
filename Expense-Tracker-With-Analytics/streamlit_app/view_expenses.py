@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
-from utils import get_all_expenses, get_category_summary
+from utils import get_all_expenses, get_category_summary, API_URL
 from edit_expense import edit_expense_form
 from delete_expense import handle_delete_expense
 from datetime import datetime
+import requests
 
 def show_view_expenses():
     st.subheader("📊 View & Manage Expenses")
@@ -84,3 +85,21 @@ def show_view_expenses():
         st.dataframe(summary_df, use_container_width=True)
     else:
         st.info("No summary data available yet for this month.")
+
+        # ---------------- Download previous month backup ----------------
+    st.divider()
+    st.subheader("📥 Download Previous Backup Data")
+
+    # Option A: quick static list (works now)
+    months_available = ["2025-09", "2025-10", "2025-11"]  # <-- you can update or generate dynamically later
+    selected_month = st.selectbox("Select Backup Month", months_available, index=0)
+
+    if st.button("Download Backup 🚀"):
+        api_url = f"{API_URL}/download?month={selected_month}"
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            url = response.json().get("download_url")
+            st.markdown(f"✅ Click to download:\n\n👉 [Download File]({url})")
+        else:
+            st.error("⚠️ Backup not found for that month!")

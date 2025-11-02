@@ -1,8 +1,28 @@
 # Lambda entry point (main)
 
 import json
+import boto3
+import os
 from utils import response
 from db_operations import add_expense, get_expenses, get_monthly_summary, update_expense, delete_expense
+
+s3 = boto3.client("s3")
+BUCKET_NAME = os.environ["S3_BUCKET"]
+
+
+def generate_presigned_url(month):
+    file_key = f"{month}/category_summary_{month}.csv"  # Matches your backup structure
+    
+    try:
+        url = s3.generate_presigned_url(
+            "get_object",
+            Params={"Bucket": BUCKET_NAME, "Key": file_key},
+            ExpiresIn=3600  # 1 hour link expiry
+        )
+        return response(200, {"download_url": url})
+    except Exception as e:
+        return response(500, {"error": str(e)})
+
 
 def lambda_handler(event, context):
     print("Event received:", event)  # Debug log
@@ -83,6 +103,14 @@ def lambda_handler(event, context):
 
             result = delete_expense(month_category, date_id)
             return response(200, result)
+        
+        # ------------------ GET /download ------------------
+        elif http_method == "GET" and "/download" in path:
+            month = params.get("month")
+            if not month:
+                return response(400, {"error": "Provide month=YYYY-MM in query params"})
+            return generate_presigned_url(month)
+
 
         # ------------------ Unsupported ------------------
         else:

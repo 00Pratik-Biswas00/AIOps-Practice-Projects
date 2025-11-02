@@ -125,5 +125,23 @@ def delete_expense_from_api(month_category, date_id):
         st.error(f"⚠️ Failed to delete expense: {e}")
         return {"status": "error"}
 
+# utils.py (append near other API helpers)
 
-        
+def get_backup_presigned_url(month):
+    """Call backend GET /download?month=YYYY-MM and return JSON response."""
+    if not API_URL:
+        st.error("⚠️ API_URL is not set in environment variables.")
+        return {"status": "error", "error": "API_URL missing"}
+
+    try:
+        resp = requests.get(f"{API_URL.rstrip('/')}/download", params={"month": month}, timeout=10)
+        # If backend returns non-200, return the parsed json anyway for better UI handling
+        try:
+            data = resp.json()
+        except Exception:
+            data = {"error": resp.text}
+        return {"status_code": resp.status_code, "data": data}
+    except requests.exceptions.RequestException as e:
+        st.error(f"⚠️ Failed to contact backend for download: {e}")
+        print("Download request exception:", repr(e))
+        return {"status": "error", "error": str(e)}

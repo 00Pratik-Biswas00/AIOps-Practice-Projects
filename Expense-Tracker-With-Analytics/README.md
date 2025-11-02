@@ -51,7 +51,7 @@ S3_BUCKET=
 
 #### User Interface (View Expenses)
 
-
+<img width="1920" height="1128" alt="view expense" src="https://github.com/user-attachments/assets/3961d3f1-fd8e-49bf-8481-acccec313936" />
 
 #### User Interface (Analytics)
 

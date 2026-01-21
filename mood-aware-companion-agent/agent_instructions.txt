@@ -1,0 +1,30 @@
+## How to Categorize a Song by Mood
+
+When categorizing a song based on mood, consider the following musical elements. A song's mood is a combination of these factors, and the same song can fit different moods depending on the listener's interpretation.
+
+### 1. Tempo (Beats Per Minute - BPM)
+- **Energetic/Upbeat (High BPM):** Fast-paced songs, typically above 120 BPM. Think of dance music, pop, rock, and some forms of metal. These songs are great for workouts, parties, or when you need a boost of energy.
+- **Calm/Relaxing (Low BPM):** Slower songs, typically below 80 BPM. This includes ambient music, ballads, some classical music, and lo-fi. These songs are ideal for studying, relaxing, or sleeping.
+- **Moderate (Mid-range BPM):** Songs that fall between the two extremes (80-120 BPM). This is common in many genres, including pop, rock, and country. The mood can vary greatly depending on the other elements.
+
+### 2. Key and Harmony
+- **Major Key (Often associated with "happy" or "positive" moods):** Songs in a major key tend to sound bright, cheerful, and uplifting.
+- **Minor Key (Often associated with "sad" or "melancholy" moods):** Songs in a minor key can evoke feelings of sadness, introspection, or seriousness.
+- **Complex/Dissonant Harmonies:** Can create a sense of tension, unease, or complexity. This is common in genres like jazz, some forms of classical music, and experimental music.
+
+### 3. Instrumentation and Timbre
+- **Acoustic Instruments:** Instruments like acoustic guitar, piano, and strings often create a more intimate, raw, or calm feeling.
+- **Electronic Instruments:** Synthesizers, drum machines, and electric guitars can create a wide range of moods, from energetic and danceable to atmospheric and ambient.
+- **Vocal Style:** The way the vocalist sings plays a huge role. Are they singing softly and gently, or are they belting out the lyrics with power and emotion?
+
+### 4. Dynamics (Loudness and Softness)
+- **Loud/High-Energy Dynamics:** Songs that are consistently loud or have a wide dynamic range with powerful choruses tend to be more energetic.
+- **Soft/Subtle Dynamics:** Songs that are quiet or have a narrow dynamic range are often more calming or introspective.
+
+### Example Moods and Their Characteristics:
+- **Calm:** Low tempo, often in a major key, acoustic instrumentation, soft dynamics.
+- **Energetic:** High tempo, major key, electronic or rock instrumentation, loud dynamics.
+- **Low/Sad:** Low to moderate tempo, minor key, often featuring piano or strings, and a more subdued vocal performance.
+- **Happy/Uplifting:** High tempo, major key, bright instrumentation (e.g., horns, synths), and a strong, clear vocal performance.
+- **Angry/Intense:** Very high tempo, often in a minor key, distorted guitars, aggressive drumming, and powerful vocals.
+- **Romantic:** Slow to moderate tempo, often with lush instrumentation (strings, piano), and a heartfelt vocal performance.

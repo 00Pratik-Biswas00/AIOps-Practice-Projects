@@ -15,3 +15,6 @@ venv/
 # AWS
 *.zip
 .aws-sam/
+
+# Random
+1.png

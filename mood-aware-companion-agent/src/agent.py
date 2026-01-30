@@ -35,7 +35,7 @@ def _get_gemini_recommendations(prompt):
     try:
         client = genai.Client() # Initialize the client
         response = client.models.generate_content( # Use client.models.generate_content
-            model='gemini-2.0-flash', # Specify the model
+            model='gemini-2.5-flash', # Specify the model
             contents=prompt
         )
         return response.text
